@@ -6,6 +6,7 @@ import { shades } from "../theme";
 
 const Item = () => {
   const [items, setItems] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchItems();
@@ -13,21 +14,28 @@ const Item = () => {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/product2");
+      const response = await fetch("http://localhost:5004/api/product1");
+      if (!response.ok) {
+        throw new Error("Failed to fetch items");
+      }
       const data = await response.json();
       setItems(data);
     } catch (error) {
-      console.error("Error fetching items:", error);
+      setError(error.message);
     }
   };
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div>
-      {items.map((item, index) => (
-        <Box key={index} width="200px">
+      {items.map((item) => (
+        <Box key={item._id} width="200px">
           <Box position="relative">
             <img
-              alt={item.title}
+              alt={item.productImage}
               width="300px"
               height="400px"
               src={item.productImage}
