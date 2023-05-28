@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
@@ -13,7 +12,6 @@ import Item from "../../components/Items";
 
 const ItemDetails = () => {
   const dispatch = useDispatch();
-  const { _id } = useParams();
   const [value, setValue] = useState("description");
   const [count, setCount] = useState(1);
   const [item, setItem] = useState(null);
