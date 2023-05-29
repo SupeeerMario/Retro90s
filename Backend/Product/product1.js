@@ -67,8 +67,6 @@ router.get("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
   const qTitle = req.query.title;
   const qCategory = req.query.category;
-  const qPriceMin = req.query.price_min;
-  const qPriceMax = req.query.price_max;
   const query = {};
 
   if (qTitle) {
@@ -76,14 +74,6 @@ router.get("/", async (req, res) => {
   }
   if (qCategory) {
     query.categories = qCategory;
-  }
-
-  if (qPriceMin && !isNaN(qPriceMin)) {
-    query.price = { $gte: parseInt(qPriceMin) };
-  } else if (qPriceMax && !isNaN(qPriceMax)) {
-    query.price = { $lte: parseInt(qPriceMax) };
-  } else if (qPriceMin && qPriceMax && !isNaN(qPriceMin) && !isNaN(qPriceMax)) {
-    query.price = { $gte: parseInt(qPriceMin), $lte: parseInt(qPriceMax) };
   }
 
   try {
