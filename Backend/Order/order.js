@@ -1,7 +1,11 @@
-const express = require("express");
-const { verifyToken, verifyTokenAndauthorization, verifyTokenAndAdmin } = require("../routes/verifyToken");
-const Order = require("../models/Order");
-const router = express.Router();
+const Order = require("./models/Order");
+const {
+  verifyToken,
+  verifyTokenAndauthorization,
+  verifyTokenAndAdmin,
+} = require("../routes/verifyToken");
+const router = require("express").Router();
+
 
 //Create
 
@@ -12,6 +16,7 @@ router.post("/", verifyToken, async (req,res)=>{
         const savedOrder = await newOrder.save();
         res.status(200).json(savedOrder);
     }catch(err){
+        console.error(err);
         res.status(500).json(err)
     }
 
@@ -56,11 +61,12 @@ router.get("/find/:userId",verifyTokenAndauthorization, async (req, res) => {
 
 //GET ALL Orders
 
-router.get("/", verifyTokenAndAdmin, async(req,res)=>{
+router.get("/",verifyTokenAndAdmin, async(req,res)=>{
     try{
-        const orders = await Orders.find()
-        res.status(200).json(carts)
+        const orders = await Order.find()
+        res.status(200).json(orders)
     }catch(err){
+        console.error(err);
         res.status(500).json(err)
     }
 })

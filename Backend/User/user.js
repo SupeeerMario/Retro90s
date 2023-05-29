@@ -1,16 +1,35 @@
-const express = require("express");
+const User = require("./models/User");
 const {
   verifyToken,
-  verifyTokenAndAuthorization,
+  verifyTokenAndauthorization,
   verifyTokenAndAdmin,
 } = require("../routes/verifyToken");
-
-
-const User = require("../models/User");
 const router = require("express").Router();
+const CryptoJS = require("crypto-js");
+
+
+// CREATE
+router.post("/register", async (req, res) => {
+  const newUser = new User({
+    username: req.body.username,
+    email: req.body.email,
+    password: CryptoJS.AES.encrypt(
+      req.body.password,
+      process.env.PASS_SEC
+    ).toString(),
+  });
+
+  try {
+    const savedUser = await newUser.save();
+    res.status(201).json(savedUser);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 
 //Update
-router.put("/:id", verifyTokenAndAuthorization,async (req,res)=>{
+router.put("/:id", verifyTokenAndauthorization,async (req,res)=>{
     if(req.body.password){
         req.body.password = CryptoJS.AES.encrypt(
             req.body.password,
@@ -27,7 +46,7 @@ router.put("/:id", verifyTokenAndAuthorization,async (req,res)=>{
 })
 
 //DELETE
-router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
+router.delete("/:id", verifyTokenAndauthorization, async (req, res) => {
     try {
       await User.findByIdAndDelete(req.params.id);
       res.status(200).json("User has been deleted");

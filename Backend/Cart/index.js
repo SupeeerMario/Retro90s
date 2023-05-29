@@ -20,7 +20,7 @@ app.use(cors());
 
 // Import the required routers
 const product2Router = require("../Product/product1");
-const userRouter = require("../User/user2");
+const userRouter = require("../User/user");
 const orderRouter = require("../Order/order");
 const cartRouter = require("./cart");
 

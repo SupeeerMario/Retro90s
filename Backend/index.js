@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors());
 
 // Import microservice routers
-const userRouter = require("./User/user2");
+const userRouter = require("./User/user");
 const authRouter = require("./routes/auth");
 const product2Router = require("./Product/product1");
 const cartRouter = require("./Cart/cart");

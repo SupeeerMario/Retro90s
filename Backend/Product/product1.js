@@ -1,14 +1,13 @@
 const Product = require("./models/Product2");
 const {
   verifyToken,
-  verifyTokenAndAuthorization,
+  verifyTokenAndauthorization,
   verifyTokenAndAdmin,
 } = require("../routes/verifyToken");
 const router = require("express").Router();
 
 // CREATE
 router.post("/", verifyTokenAndAdmin, async (req, res) => {
-
   const { title, shortdesc, longdesc, categories, price, productImage } = req.body;
 
   const newProduct = new Product({
@@ -76,7 +75,7 @@ router.get("/", async (req, res) => {
     query.title = { $regex: qTitle, $options: "i" };
   }
   if (qCategory) {
-    query.category = qCategory;
+    query.categories = qCategory;
   }
 
   if (qPriceMin && !isNaN(qPriceMin)) {
@@ -94,12 +93,13 @@ router.get("/", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 // SEARCH PRODUCTS BY TITLE
 router.get("/search", async (req, res) => {
   const qTitle = req.query.title;
 
   try {
-    const products =await Product.find({ title: qTitle });
+    const products = await Product.find({ title: qTitle });
     res.status(200).json(products);
   } catch (err) {
     res.status(500).json(err);

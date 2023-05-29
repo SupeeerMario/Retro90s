@@ -1,10 +1,13 @@
-const express = require("express");
-const { verifyToken, verifyTokenAndauthorization, verifyTokenAndAdmin } = require("../routes/verifyToken");
-const Cart = require("../models/Cart");
-const router = express.Router();
+const Cart = require("./models/Cart");
+const {
+  verifyToken,
+  verifyTokenAndauthorization,
+  verifyTokenAndAdmin,
+} = require("../routes/verifyToken");
+const router = require("express").Router();
+
 
 //Create
-
 router.post("/", verifyToken, async (req,res)=>{
     const newCart = new Cart(req.body)
 
