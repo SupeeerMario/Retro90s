@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { IconButton, Box, Typography, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -19,7 +19,14 @@ const Item = () => {
         throw new Error("Failed to fetch items");
       }
       const data = await response.json();
-      setItems(data);
+      const productImage = {
+        _id: data._id,
+        productImage: data.productImage,
+        categories: data.categories,
+        title: data.title,
+        price: data.price
+      };
+      setItems([productImage]);
     } catch (error) {
       setError(error.message);
     }
@@ -31,8 +38,8 @@ const Item = () => {
 
   return (
     <div>
-      {items.map((item) => (
-        <Box key={item._id} width="200px">
+      {items.map((item, index) => (
+        <Box key={`${item._id}-${index}`} width="200px">
           <Box position="relative">
             <img
               alt={item.productImage}
